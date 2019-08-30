@@ -246,7 +246,12 @@ class Import extends Factory
                 '_children' => new Expr('GROUP_CONCAT(e.sku SEPARATOR ",")'),
                 '_type_id' => new Expr('"configurable"'),
                 '_options_container' => new Expr('"container1"'),
-                '_status' => 'e._status',
+                /**
+                 * custom logic: keep main configurable product enabled
+                 * when there is atleast one enabled variant
+                 * _status : [ 1 => enabled, 2 => disabled ]
+                 */
+                '_status' => new Expr('MIN(e._status)'),
                 '_axis' => 'v.axis'
             );
 
